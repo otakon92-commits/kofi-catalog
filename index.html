@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grounds & Origins — Coffee Discovery</title>
+
+<!-- Google Fonts: a characterful display serif for headings, a warm workhorse sans for body/UI -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   DESIGN TOKENS
+   Warm coffee-shop palette: dark espresso for structure, light brown/tan
+   for accents, a cream ground for reading areas. Everything below is
+   derived from these variables — no ad-hoc colors elsewhere in the file.
+   ========================================================================== */
+:root{
+  --espresso-950:#231108;   /* near-black roast, page/header background */
+  --espresso-800:#3c2415;   /* secondary dark surface (cards on dark) */
+  --espresso-700:#4d2f1c;   /* borders/dividers on dark surfaces */
+  --tan-400:#c98a4b;        /* primary accent — buttons, links, highlights */
+  --tan-300:#dba86c;        /* hover state for accent */
+  --tan-100:#e9cfa3;        /* subtle highlight text on dark */
+  --cream-100:#f7efe3;      /* light background for reading areas */
+  --cream-050:#fbf6ee;      /* card background on light */
+  --ink-900:#241608;        /* body text on light */
+  --ink-600:#5b4634;        /* secondary text on light */
+  --good:#7a8a5c;           /* star fill for ratings */
+
+  --radius-sm:6px;
+  --radius-md:12px;
+  --radius-lg:20px;
+
+  --font-display:'Fraunces', serif;
+  --font-body:'Work Sans', sans-serif;
+
+  --shadow-card: 0 8px 24px rgba(35, 17, 8, 0.12);
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  font-family:var(--font-body);
+  background:var(--cream-100);
+  color:var(--ink-900);
+  line-height:1.5;
+}
+img{ max-width:100%; display:block; }
+button{ font-family:inherit; cursor:pointer; }
+input, textarea{ font-family:inherit; }
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+/* ==========================================================================
+   VISUALLY HIDDEN (accessibility helper)
+   ========================================================================== */
+.visually-hidden{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+/* ==========================================================================
+   HEADER / HERO
+   Signature moment: a "pour" divider (a hand-drawn-style SVG wave that
+   mimics milk being poured into espresso) sits under the hero, tying the
+   page's very first visual beat to the subject itself.
+   ========================================================================== */
+.site-header{
+  background:var(--espresso-950);
+  color:var(--cream-100);
+  padding:2rem 1.5rem 0;
+}
+.header-inner{
+  max-width:1100px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.brand{
+  display:flex;
+  align-items:baseline;
+  gap:0.6rem;
+}
+.brand-mark{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:1.6rem;
+  letter-spacing:0.01em;
+  color:var(--cream-100);
+}
+.brand-tag{
+  font-size:0.78rem;
+  color:var(--tan-300);
+  text-transform:uppercase;
+  letter-spacing:0.14em;
+}
+
+.hero{
+  max-width:1100px;
+  margin:0 auto;
+  padding:3rem 0 3.5rem;
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:2.5rem;
+  align-items:center;
+}
+.hero h1{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:clamp(2.2rem, 4.5vw, 3.4rem);
+  line-height:1.05;
+  margin:0 0 0.9rem;
+}
+.hero h1 em{
+  font-style:italic;
+  color:var(--tan-300);
+}
+.hero p{
+  color:var(--tan-100);
+  font-size:1.05rem;
+  max-width:38ch;
+  margin:0;
+}
+
+/* Ratio-ring signature graphic in the hero: a static illustration of a
+   ring split like an espresso:milk ratio, foreshadowing the ratio bars
+   used later in each coffee's data card. */
+.hero-ring{
+  justify-self:center;
+  width:min(240px, 60vw);
+  aspect-ratio:1;
+  position:relative;
+}
+.hero-ring svg{ width:100%; height:100%; }
+.hero-ring .ring-label{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.hero-ring .ring-label strong{
+  font-family:var(--font-display);
+  font-size:1.9rem;
+  color:var(--cream-100);
+}
+.hero-ring .ring-label span{
+  font-size:0.72rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--tan-300);
+}
+
+/* Pour divider between header and content */
+.pour-divider{
+  display:block;
+  width:100%;
+  height:40px;
+  margin-top:1rem;
+}
+
+@media (max-width: 760px){
+  .hero{ grid-template-columns:1fr; padding-top:1.5rem; text-align:center; }
+  .hero p{ margin:0 auto; }
+  .hero-ring{ order:-1; width:170px; }
+}
+
+/* ==========================================================================
+   MAIN LAYOUT
+   ========================================================================== */
+.page-main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:2.5rem 1.5rem 5rem;
+  display:grid;
+  grid-template-columns:340px 1fr;
+  gap:2rem;
+  align-items:start;
+}
+@media (max-width: 900px){
+  .page-main{ grid-template-columns:1fr; }
+}
+
+/* ==========================================================================
+   SEARCH + LIST PANEL
+   ========================================================================== */
+.panel{
+  background:var(--cream-050);
+  border:1px solid #e5d3ba;
+  border-radius:var(--radius-lg);
+  padding:1.25rem;
+  box-shadow:var(--shadow-card);
+}
+.panel h2{
+  font-family:var(--font-display);
+  font-size:1.05rem;
+  margin:0 0 0.9rem;
+  color:var(--ink-900);
+}
+
+.search-wrap{
+  position:relative;
+  margin-bottom:1rem;
+}
+.search-wrap svg{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  width:18px;
+  height:18px;
+  color:var(--ink-600);
+}
+#coffee-search{
+  width:100%;
+  padding:0.7rem 0.9rem 0.7rem 2.4rem;
+  border:1.5px solid #d9c3a3;
+  border-radius:999px;
+  background:#fff;
+  font-size:0.95rem;
+  color:var(--ink-900);
+  outline-offset:2px;
+}
+#coffee-search:focus-visible{
+  outline:2px solid var(--tan-400);
+}
+
+#coffee-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:0.4rem;
+  max-height:520px;
+  overflow-y:auto;
+}
+.coffee-list-item button{
+  width:100%;
+  text-align:left;
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:var(--radius-md);
+  padding:0.65rem 0.8rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:0.5rem;
+  color:var(--ink-900);
+  transition:background 0.15s ease, border-color 0.15s ease;
+}
+.coffee-list-item button:hover{
+  background:var(--cream-100);
+  border-color:#e5d3ba;
+}
+.coffee-list-item button:focus-visible{
+  outline:2px solid var(--tan-400);
+  outline-offset:2px;
+}
+.coffee-list-item button.active{
+  background:var(--espresso-950);
+  color:var(--cream-100);
+  border-color:var(--espresso-950);
+}
+.coffee-list-item .name{
+  font-weight:600;
+  font-size:0.95rem;
+}
+.coffee-list-item .origin-tag{
+  font-size:0.72rem;
+  color:var(--ink-600);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+}
+.coffee-list-item button.active .origin-tag{
+  color:var(--tan-300);
+}
+.no-results{
+  padding:1rem 0.5rem;
+  color:var(--ink-600);
+  font-size:0.9rem;
+  text-align:center;
+}
+
+/* ==========================================================================
+   COFFEE DETAIL CARD
+   ========================================================================== */
+.detail-card{
+  background:var(--espresso-950);
+  color:var(--cream-100);
+  border-radius:var(--radius-lg);
+  padding:2rem;
+  box-shadow:var(--shadow-card);
+  margin-bottom:1.75rem;
+}
+.detail-card .eyebrow{
+  font-size:0.75rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--tan-300);
+  margin:0 0 0.4rem;
+}
+.detail-card h2{
+  font-family:var(--font-display);
+  font-size:clamp(1.7rem, 3vw, 2.3rem);
+  margin:0 0 0.6rem;
+}
+.detail-card .description{
+  color:var(--tan-100);
+  max-width:60ch;
+  margin:0 0 1.5rem;
+}
+
+.detail-meta{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:1.25rem;
+  margin-bottom:1.5rem;
+}
+.meta-block h3{
+  font-size:0.72rem;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--tan-300);
+  margin:0 0 0.4rem;
+}
+.meta-block p{
+  margin:0;
+  font-size:0.95rem;
+}
+.bean-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.4rem;
+}
+.bean-tags span{
+  background:var(--espresso-800);
+  border:1px solid var(--espresso-700);
+  color:var(--tan-100);
+  font-size:0.78rem;
+  padding:0.25rem 0.65rem;
+  border-radius:999px;
+}
+
+/* Ratio bar — the signature data visualization: renders the coffee's
+   ingredient ratio as a proportional horizontal bar so a "1:2 espresso to
+   steamed milk" reads visually, not just as text. */
+.ratio-block{ margin-bottom:0.5rem; }
+.ratio-legend{
+  display:flex;
+  justify-content:space-between;
+  font-size:0.78rem;
+  color:var(--tan-100);
+  margin-bottom:0.35rem;
+}
+.ratio-bar{
+  display:flex;
+  width:100%;
+  height:14px;
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid var(--espresso-700);
+}
+.ratio-bar .seg{
+  height:100%;
+}
+.ratio-bar .seg.espresso{ background:var(--tan-400); }
+.ratio-bar .seg.other{ background:var(--espresso-700); }
+.ratio-note{
+  font-size:0.85rem;
+  color:var(--tan-100);
+  margin:0.6rem 0 0;
+}
+
+/* ==========================================================================
+   REVIEWS SECTION
+   ========================================================================== */
+.reviews-panel{
+  background:var(--cream-050);
+  border:1px solid #e5d3ba;
+  border-radius:var(--radius-lg);
+  padding:1.75rem;
+  box-shadow:var(--shadow-card);
+}
+.reviews-header{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1.25rem;
+  flex-wrap:wrap;
+}
+.reviews-header h2{
+  font-family:var(--font-display);
+  font-size:1.3rem;
+  margin:0;
+}
+.avg-rating{
+  font-size:0.88rem;
+  color:var(--ink-600);
+}
+.avg-rating strong{ color:var(--ink-900); }
+
+#review-list{
+  list-style:none;
+  margin:0 0 1.75rem;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:0.9rem;
+}
+.review-item{
+  border:1px solid #e5d3ba;
+  border-radius:var(--radius-md);
+  padding:0.9rem 1.1rem;
+  background:#fff;
+}
+.review-item .review-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:0.5rem;
+  margin-bottom:0.3rem;
+  flex-wrap:wrap;
+}
+.review-item .reviewer{
+  font-weight:600;
+  font-size:0.92rem;
+}
+.stars{
+  color:var(--good);
+  font-size:0.9rem;
+  letter-spacing:0.06em;
+}
+.stars .empty{ color:#d9c3a3; }
+.review-item p{
+  margin:0;
+  font-size:0.92rem;
+  color:var(--ink-600);
+}
+.no-reviews{
+  color:var(--ink-600);
+  font-size:0.92rem;
+  padding:0.5rem 0 1rem;
+}
+
+/* Review form */
+.review-form h3{
+  font-family:var(--font-display);
+  font-size:1.05rem;
+  margin:0 0 0.9rem;
+}
+.form-row{
+  margin-bottom:0.9rem;
+}
+.form-row label{
+  display:block;
+  font-size:0.82rem;
+  font-weight:600;
+  color:var(--ink-900);
+  margin-bottom:0.35rem;
+}
+.form-row input[type="text"],
+.form-row textarea{
+  width:100%;
+  padding:0.6rem 0.75rem;
+  border:1.5px solid #d9c3a3;
+  border-radius:var(--radius-sm);
+  background:#fff;
+  font-size:0.92rem;
+  color:var(--ink-900);
+  resize:vertical;
+}
+.form-row input:focus-visible,
+.form-row textarea:focus-visible{
+  outline:2px solid var(--tan-400);
+  outline-offset:1px;
+}
+.rating-input{
+  display:flex;
+  gap:0.3rem;
+}
+.rating-input button{
+  background:none;
+  border:none;
+  font-size:1.5rem;
+  line-height:1;
+  color:#d9c3a3;
+  padding:0.1rem;
+  transition:transform 0.1s ease;
+}
+.rating-input button:hover{ transform:scale(1.12); }
+.rating-input button.selected{ color:var(--good); }
+.rating-input button:focus-visible{
+  outline:2px solid var(--tan-400);
+  outline-offset:2px;
+  border-radius:4px;
+}
+
+.submit-btn{
+  background:var(--tan-400);
+  color:var(--espresso-950);
+  border:none;
+  font-weight:700;
+  font-size:0.92rem;
+  padding:0.7rem 1.4rem;
+  border-radius:999px;
+  transition:background 0.15s ease;
+}
+.submit-btn:hover{ background:var(--tan-300); }
+.submit-btn:focus-visible{ outline:2px solid var(--espresso-950); outline-offset:2px; }
+
+.form-msg{
+  font-size:0.85rem;
+  margin-top:0.6rem;
+  color:var(--good);
+}
+.form-msg.error{ color:#a4402a; }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer{
+  background:var(--espresso-950);
+  color:var(--tan-100);
+  text-align:center;
+  padding:1.5rem;
+  font-size:0.82rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ==========================================================================
+     HEADER + HERO
+     ========================================================================== -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-mark">Grounds &amp; Origins</span>
+      <span class="brand-tag">Coffee Field Guide</span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div>
+      <h1>Know your cup <em>before</em> you order it.</h1>
+      <p>Search any coffee to see where it's from, what it's made of, and exactly how it's built — ratio and all.</p>
+    </div>
+    <div class="hero-ring" aria-hidden="true">
+      <svg viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="86" fill="none" stroke="#4d2f1c" stroke-width="16"/>
+        <!-- espresso portion of ring, ~35% -->
+        <circle cx="100" cy="100" r="86" fill="none" stroke="#c98a4b" stroke-width="16"
+                stroke-dasharray="540.35" stroke-dashoffset="351.2" stroke-linecap="round"
+                transform="rotate(-90 100 100)"/>
+      </svg>
+      <div class="ring-label">
+        <strong>1:2</strong>
+        <span>Typical Ratio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pour divider: a hand-drawn wave suggesting milk poured into espresso -->
+  <svg class="pour-divider" viewBox="0 0 1100 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20 C150,40 300,0 450,20 C600,40 750,0 900,20 C1000,33 1050,10 1100,20 L1100,40 L0,40 Z"
+          fill="#f7efe3"/>
+  </svg>
+</header>
+
+<!-- ==========================================================================
+     MAIN CONTENT
+     ========================================================================== -->
+<main class="page-main">
+
+  <!-- SEARCH + LIST PANEL -->
+  <section class="panel" aria-label="Coffee search">
+    <h2>Find a coffee</h2>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <label for="coffee-search" class="visually-hidden">Search coffee by name</label>
+      <input type="text" id="coffee-search" placeholder="Search Cortado, Latte, Americano…" autocomplete="off" />
+    </div>
+    <ul id="coffee-list"></ul>
+  </section>
+
+  <!-- DETAIL + REVIEWS -->
+  <section aria-label="Coffee details and reviews">
+    <article class="detail-card" id="detail-card">
+      <!-- Populated by JS -->
+    </article>
+
+    <section class="reviews-panel" aria-label="Reviews">
+      <div class="reviews-header">
+        <h2 id="reviews-title">Reviews</h2>
+        <p class="avg-rating" id="avg-rating"></p>
+      </div>
+
+      <ul id="review-list"></ul>
+
+      <form class="review-form" id="review-form" novalidate>
+        <h3>Leave a review</h3>
+
+        <div class="form-row">
+          <label for="reviewer-name">Your name</label>
+          <input type="text" id="reviewer-name" name="reviewer-name" maxlength="40" required />
+        </div>
+
+        <div class="form-row">
+          <label id="rating-label">Your rating</label>
+          <div class="rating-input" id="rating-input" role="radiogroup" aria-labelledby="rating-label">
+            <!-- 5 star buttons populated by JS -->
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="reviewer-text">Your review</label>
+          <textarea id="reviewer-text" name="reviewer-text" rows="3" maxlength="400" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Post review</button>
+        <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  Grounds &amp; Origins — a field guide for people who like knowing what's in their cup.
+</footer>
+
+<script>
+/* ============================================================================
+   DATA LAYER
+   Embedded mock data — no backend, no external calls. `coffees` is the
+   source of truth for the info cards; `reviewsByCoffee` holds seed reviews
+   keyed by coffee id, and grows in-memory as users submit new ones.
+   ============================================================================ */
+
+const coffees = [
+  {
+    id: "espresso",
+    name: "Espresso",
+    description: "A concentrated shot of coffee brewed by forcing hot water through finely-ground beans under pressure. The base for nearly every drink on this list.",
+    origin: "Italy (brewing method); beans sourced globally",
+    beans: ["Arabica", "Robusta blend", "Dark roast"],
+    ratioLabel: "Espresso : Water",
+    ratioParts: [1, 2],
+    ratioNote: "Roughly 18g of ground coffee to 36g of liquid espresso (a 1:2 brew ratio), pulled in about 25–30 seconds."
+  },
+  {
+    id: "americano",
+    name: "Americano",
+    description: "Espresso diluted with hot water, giving a lighter body similar to drip coffee but with the flavor profile of espresso.",
+    origin: "United States (WWII-era adaptation of Italian espresso)",
+    beans: ["Arabica", "Medium roast"],
+    ratioLabel: "Espresso : Hot Water",
+    ratioParts: [1, 3],
+    ratioNote: "One or two shots of espresso topped with hot water in roughly a 1:3 ratio, adjustable to taste."
+  },
+  {
+    id: "latte",
+    name: "Latte",
+    description: "Espresso combined with a generous amount of steamed milk and a thin layer of foam, resulting in a smooth, mild, milk-forward drink.",
+    origin: "Italy, popularized internationally through the U.S.",
+    beans: ["Arabica", "Single Origin", "Medium roast"],
+    ratioLabel: "Espresso : Steamed Milk",
+    ratioParts: [1, 3],
+    ratioNote: "A single or double shot with steamed milk in about a 1:3 ratio, finished with a thin (~1cm) layer of foam."
+  },
+  {
+    id: "cappuccino",
+    name: "Cappuccino",
+    description: "Equal parts espresso, steamed milk, and milk foam, giving a stronger coffee flavor and airier texture than a latte.",
+    origin: "Italy — named for the Capuchin friars' brown robes",
+    beans: ["Arabica", "Dark roast"],
+    ratioLabel: "Espresso : Milk : Foam",
+    ratioParts: [1, 1, 1],
+    ratioNote: "Traditionally equal thirds espresso, steamed milk, and foam (roughly 1:1:1)."
+  },
+  {
+    id: "cortado",
+    name: "Cortado",
+    description: "Espresso 'cut' with a small amount of warm milk to reduce acidity while keeping the coffee flavor dominant — no foam.",
+    origin: "Spain",
+    beans: ["Arabica", "Single Origin", "Medium-dark roast"],
+    ratioLabel: "Espresso : Warm Milk",
+    ratioParts: [1, 1],
+    ratioNote: "A 1:1 ratio of espresso to warm milk, steamed with minimal foam for a silky texture."
+  },
+  {
+    id: "macchiato",
+    name: "Macchiato",
+    description: "Espresso 'marked' with just a dollop of foamed milk — the strongest, least diluted milk-based drink on the menu.",
+    origin: "Italy",
+    beans: ["Arabica", "Dark roast"],
+    ratioLabel: "Espresso : Milk Foam",
+    ratioParts: [4, 1],
+    ratioNote: "A shot of espresso with just a spoonful of foam on top — roughly 4:1 espresso to milk."
+  },
+  {
+    id: "mocha",
+    name: "Mocha",
+    description: "A chocolate-espresso hybrid: espresso, steamed milk, and chocolate syrup, often topped with whipped cream.",
+    origin: "Named after Mokha, Yemen, a historic coffee trading port",
+    beans: ["Arabica", "Robusta blend", "Medium roast"],
+    ratioLabel: "Espresso : Milk : Chocolate",
+    ratioParts: [1, 2, 1],
+    ratioNote: "One shot of espresso, steamed milk, and roughly a tablespoon of chocolate syrup per cup."
+  },
+  {
+    id: "flatwhite",
+    name: "Flat White",
+    description: "Espresso with steamed milk that has been textured to be denser and silkier than a latte's, with little to no foam.",
+    origin: "Australia / New Zealand",
+    beans: ["Arabica", "Single Origin"],
+    ratioLabel: "Espresso : Microfoam Milk",
+    ratioParts: [1, 2],
+    ratioNote: "A double shot with velvety microfoam milk at about a 1:2 ratio — less milk than a latte, no thick foam cap."
+  },
+  {
+    id: "affogato",
+    name: "Affogato",
+    description: "A dessert-drink hybrid: a hot shot of espresso poured directly over a scoop of vanilla gelato or ice cream.",
+    origin: "Italy",
+    beans: ["Arabica", "Dark roast"],
+    ratioLabel: "Espresso : Gelato",
+    ratioParts: [1, 1],
+    ratioNote: "One shot of hot espresso poured over one scoop of gelato right before serving — a roughly 1:1 pairing by volume."
+  },
+  {
+    id: "coldbrew",
+    name: "Cold Brew",
+    description: "Coarse coffee grounds steeped in cold water for 12–24 hours, producing a smooth, low-acidity concentrate served over ice.",
+    origin: "Popularized in Japan (17th century method) and the U.S.",
+    beans: ["Arabica", "Robusta blend", "Medium-dark roast"],
+    ratioLabel: "Coffee Grounds : Water",
+    ratioParts: [1, 4],
+    ratioNote: "A steeping ratio of roughly 1:4 (coarse grounds to cold water), diluted further to taste before serving over ice."
+  }
+];
+
+// Seed reviews, keyed by coffee id. New submissions are pushed here at runtime.
+const reviewsByCoffee = {
+  espresso: [
+    { name: "Marco T.", rating: 5, text: "Rich crema and no bitterness — exactly how a shot should taste." },
+    { name: "Priya S.", rating: 4, text: "Strong and quick, my go-to before a morning meeting." }
+  ],
+  americano: [
+    { name: "Dana K.", rating: 4, text: "Great alternative when drip coffee feels too weak." }
+  ],
+  latte: [
+    { name: "Jordan L.", rating: 5, text: "Perfectly balanced, the milk really mellows out the espresso." },
+    { name: "Ade O.", rating: 3, text: "Good but a little too milky for my taste today." }
+  ],
+  cappuccino: [
+    { name: "Wei C.", rating: 5, text: "Love the foam texture, tastes like an actual Italian cafe." }
+  ],
+  cortado: [
+    { name: "Lucia R.", rating: 5, text: "My favorite — strong but smooth, no sugar needed." }
+  ],
+  macchiato: [
+    { name: "Sam P.", rating: 4, text: "Bold and quick, just enough milk to soften the edge." }
+  ],
+  mocha: [
+    { name: "Beth N.", rating: 5, text: "Great treat drink, not overly sweet like some places make it." }
+  ],
+  flatwhite: [
+    { name: "Noah F.", rating: 5, text: "The microfoam here makes all the difference over a latte." }
+  ],
+  affogato: [
+    { name: "Elena V.", rating: 5, text: "Dessert and coffee in one — order this after dinner every time." }
+  ],
+  coldbrew: [
+    { name: "Chris B.", rating: 4, text: "Super smooth, though I always add a splash of milk." }
+  ]
+};
+
+/* ============================================================================
+   STATE
+   ============================================================================ */
+let selectedCoffeeId = coffees[0].id; // default to first coffee on load
+let selectedRating = 0;               // current star selection in the review form
+
+/* ============================================================================
+   DOM REFERENCES
+   ============================================================================ */
+const searchInput   = document.getElementById("coffee-search");
+const coffeeListEl  = document.getElementById("coffee-list");
+const detailCardEl  = document.getElementById("detail-card");
+const reviewsTitle  = document.getElementById("reviews-title");
+const avgRatingEl   = document.getElementById("avg-rating");
+const reviewListEl  = document.getElementById("review-list");
+const reviewForm    = document.getElementById("review-form");
+const ratingInputEl = document.getElementById("rating-input");
+const formMsgEl     = document.getElementById("form-msg");
+
+/* ============================================================================
+   RENDER: COFFEE LIST (filtered by search)
+   ============================================================================ */
+function renderCoffeeList(filterText = "") {
+  const query = filterText.trim().toLowerCase();
+  const filtered = coffees.filter(c => c.name.toLowerCase().includes(query));
+
+  coffeeListEl.innerHTML = "";
+
+  if (filtered.length === 0) {
+    const li = document.createElement("li");
+    li.className = "no-results";
+    li.textContent = `No coffee matches "${filterText}".`;
+    coffeeListEl.appendChild(li);
+    return;
+  }
+
+  filtered.forEach(coffee => {
+    const li = document.createElement("li");
+    li.className = "coffee-list-item";
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.setAttribute("aria-pressed", coffee.id === selectedCoffeeId ? "true" : "false");
+    if (coffee.id === selectedCoffeeId) btn.classList.add("active");
+
+    btn.innerHTML = `
+      <span class="name">${escapeHTML(coffee.name)}</span>
+      <span class="origin-tag">${escapeHTML(shortOrigin(coffee.origin))}</span>
+    `;
+
+    btn.addEventListener("click", () => {
+      selectedCoffeeId = coffee.id;
+      renderCoffeeList(searchInput.value);
+      renderDetailCard();
+      renderReviews();
+      resetReviewForm();
+    });
+
+    li.appendChild(btn);
+    coffeeListEl.appendChild(li);
+  });
+}
+
+// Shortens a longer origin string to just its leading place name for the list tag
+function shortOrigin(origin) {
+  return origin.split(/[,(]/)[0].trim();
+}
+
+/* ============================================================================
+   RENDER: DETAIL CARD
+   ============================================================================ */
+function renderDetailCard() {
+  const coffee = coffees.find(c => c.id === selectedCoffeeId);
+  if (!coffee) return;
+
+  const totalParts = coffee.ratioParts.reduce((sum, p) => sum + p, 0);
+  const espressoPct = Math.round((coffee.ratioParts[0] / totalParts) * 100);
+  const ratioText = coffee.ratioParts.join(" : ");
+
+  detailCardEl.innerHTML = `
+    <p class="eyebrow">Coffee Profile</p>
+    <h2>${escapeHTML(coffee.name)}</h2>
+    <p class="description">${escapeHTML(coffee.description)}</p>
+
+    <div class="detail-meta">
+      <div class="meta-block">
+        <h3>Region / Origin</h3>
+        <p>${escapeHTML(coffee.origin)}</p>
+      </div>
+      <div class="meta-block">
+        <h3>Common Bean Types</h3>
+        <div class="bean-tags">
+          ${coffee.beans.map(b => `<span>${escapeHTML(b)}</span>`).join("")}
+        </div>
+      </div>
+    </div>
+
+    <div class="ratio-block">
+      <h3 style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--tan-300);margin:0 0 0.5rem;">
+        Ingredients &amp; Ratio
+      </h3>
+      <div class="ratio-legend">
+        <span>${escapeHTML(coffee.ratioLabel)}</span>
+        <span>${escapeHTML(ratioText)}</span>
+      </div>
+      <div class="ratio-bar" role="img" aria-label="${escapeHTML(coffee.ratioLabel)} ratio of ${escapeHTML(ratioText)}">
+        <div class="seg espresso" style="width:${espressoPct}%"></div>
+        <div class="seg other" style="width:${100 - espressoPct}%"></div>
+      </div>
+      <p class="ratio-note">${escapeHTML(coffee.ratioNote)}</p>
+    </div>
+  `;
+}
+
+/* ============================================================================
+   RENDER: REVIEWS
+   ============================================================================ */
+function renderReviews() {
+  const coffee = coffees.find(c => c.id === selectedCoffeeId);
+  const reviews = reviewsByCoffee[selectedCoffeeId] || [];
+
+  reviewsTitle.textContent = `Reviews for ${coffee.name}`;
+
+  if (reviews.length === 0) {
+    avgRatingEl.textContent = "";
+    reviewListEl.innerHTML = `<li class="no-reviews">No reviews yet — be the first to share your take.</li>`;
+    return;
+  }
+
+  const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+  avgRatingEl.innerHTML = `<strong>${avg.toFixed(1)}</strong> / 5 · ${reviews.length} review${reviews.length === 1 ? "" : "s"}`;
+
+  reviewListEl.innerHTML = reviews
+    .slice()
+    .reverse() // newest first
+    .map(r => `
+      <li class="review-item">
+        <div class="review-top">
+          <span class="reviewer">${escapeHTML(r.name)}</span>
+          <span class="stars" aria-label="${r.rating} out of 5 stars">${starString(r.rating)}</span>
+        </div>
+        <p>${escapeHTML(r.text)}</p>
+      </li>
+    `)
+    .join("");
+}
+
+// Builds a filled/empty star string, e.g. "★★★★☆"
+function starString(rating) {
+  const filled = "★".repeat(rating);
+  const empty = `<span class="empty">${"★".repeat(5 - rating)}</span>`;
+  return filled + empty;
+}
+
+/* ============================================================================
+   REVIEW FORM: star rating input
+   ============================================================================ */
+function buildRatingInput() {
+  ratingInputEl.innerHTML = "";
+  for (let i = 1; i <= 5; i++) {
+    const starBtn = document.createElement("button");
+    starBtn.type = "button";
+    starBtn.textContent = "★";
+    starBtn.setAttribute("role", "radio");
+    starBtn.setAttribute("aria-checked", "false");
+    starBtn.setAttribute("aria-label", `${i} star${i > 1 ? "s" : ""}`);
+    starBtn.dataset.value = i;
+
+    starBtn.addEventListener("click", () => {
+      selectedRating = i;
+      updateRatingStars();
+    });
+
+    ratingInputEl.appendChild(starBtn);
+  }
+}
+
+function updateRatingStars() {
+  const stars = ratingInputEl.querySelectorAll("button");
+  stars.forEach(star => {
+    const value = Number(star.dataset.value);
+    const isSelected = value <= selectedRating;
+    star.classList.toggle("selected", isSelected);
+    star.setAttribute("aria-checked", value === selectedRating ? "true" : "false");
+  });
+}
+
+function resetReviewForm() {
+  reviewForm.reset();
+  selectedRating = 0;
+  updateRatingStars();
+  formMsgEl.textContent = "";
+  formMsgEl.classList.remove("error");
+}
+
+/* ============================================================================
+   REVIEW FORM: submit handler
+   ============================================================================ */
+reviewForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const nameInput = document.getElementById("reviewer-name");
+  const textInput = document.getElementById("reviewer-text");
+
+  const name = nameInput.value.trim();
+  const text = textInput.value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    formMsgEl.textContent = "Please add your name, a rating, and a short review.";
+    formMsgEl.classList.add("error");
+    return;
+  }
+
+  if (!reviewsByCoffee[selectedCoffeeId]) {
+    reviewsByCoffee[selectedCoffeeId] = [];
+  }
+
+  reviewsByCoffee[selectedCoffeeId].push({
+    name: name,
+    rating: selectedRating,
+    text: text
+  });
+
+  renderReviews();
+  resetReviewForm();
+  formMsgEl.textContent = "Thanks — your review has been posted!";
+});
+
+/* ============================================================================
+   SEARCH: live filtering as the user types
+   ============================================================================ */
+searchInput.addEventListener("input", () => {
+  renderCoffeeList(searchInput.value);
+});
+
+/* ============================================================================
+   UTILITY: basic HTML-escaping so user-submitted text can't break markup
+   ============================================================================ */
+function escapeHTML(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/* ============================================================================
+   INIT
+   ============================================================================ */
+function init() {
+  renderCoffeeList();
+  renderDetailCard();
+  buildRatingInput();
+  renderReviews();
+  updateRatingStars();
+}
+
+init();
+</script>
+
+</body>
+</html>
